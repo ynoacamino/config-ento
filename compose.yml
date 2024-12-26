@@ -10,8 +10,8 @@ services:
     environment:
       ENTE_CREDENTIALS_FILE: /credentials.yaml
     volumes:
-      - ./config/museum.yaml:/museum.yaml:ro
-      - ./config/credentials.yaml:/credentials.yaml:ro
+      - ./config-ente/museum.yaml:/museum.yaml:ro
+      - ./config-ente/credentials.yaml:/credentials.yaml:ro
 
   postgres:
     image: postgres:15

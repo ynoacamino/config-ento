@@ -1,0 +1,34 @@
+services:
+  museum:
+    image: ghcr.io/ente-io/server
+    ports:
+      - 8080:8080
+      - 2112:2112
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      ENTE_CREDENTIALS_FILE: /credentials.yaml
+    volumes:
+      - ./config/museum.yaml:/museum.yaml:ro
+      - ./config/credentials.yaml:/credentials.yaml:ro
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: pguser
+      POSTGRES_PASSWORD: pgpass
+      POSTGRES_DB: ente_db
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "pg_isready",
+          "-q",
+          "-d",
+          "ente_db",
+          "-U",
+          "pguser"
+        ]
+      start_period: 40s
+      start_interval: 1s
